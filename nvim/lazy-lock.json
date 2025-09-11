@@ -27,6 +27,7 @@
   "swagger-preview.nvim": { "branch": "master", "commit": "9b9bc21096890a1bd0f221a940d04dbab87a38aa" },
   "telescope-ui-select.nvim": { "branch": "master", "commit": "6e51d7da30bd139a6950adf2a47fda6df9fa06d2" },
   "telescope.nvim": { "branch": "master", "commit": "d90956833d7c27e73c621a61f20b29fdb7122709" },
+  "tokyonight.nvim": { "branch": "main", "commit": "057ef5d260c1931f1dffd0f052c685dcd14100a3" },
   "vim-fugitive": { "branch": "master", "commit": "61b51c09b7c9ce04e821f6cf76ea4f6f903e3cf4" },
   "vim-test": { "branch": "master", "commit": "8c76f6c0953edaa13a37c29ac9c6a7bb56ddce89" },
   "vimux": { "branch": "master", "commit": "04f299e53eb81883da0edea6a57018067f3b4938" },
