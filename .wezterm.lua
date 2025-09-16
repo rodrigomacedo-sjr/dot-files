@@ -32,7 +32,7 @@ config.font = wezterm.font_with_fallback({
 config.font_size = 12.0
 
 -- Set the color scheme.
-config.color_scheme = 'Catppuccin Mocha'
+config.color_scheme = 'Belge (terminal.sexy)'
 
 -- Window background transparency. The blur effect is handled by your
 -- system's compositor (e.g., Picom), not WezTerm on Linux.
