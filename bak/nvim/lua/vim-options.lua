@@ -20,7 +20,7 @@ vim.keymap.set("n", "<c-l>", ":wincmd l<CR>")
 vim.keymap.set("n", "<leader>h", ":nohlsearch<CR>")
 
 -- Buffer-related mappings
-vim.keymap.set("n", "<leader>bo", ":%bdelete|edit #<CR>", { silent = true, desc = "Close other buffers" })
+vim.keymap.set("n", "<leader>bo", ":%bd|e#<CR>", { silent = true, desc = "Close other buffers" })
 vim.keymap.set("n", "<leader>bx", ":bd<CR>", { silent = true, desc = "Close current buffer" })
 vim.keymap.set("n", "<leader>bn", ":enew<CR>", { noremap = true, silent = true, desc = "New Buffer" })
 vim.keymap.set("n", "<leader>br", ":edit<CR>", { silent = true, desc = "Reload buffer" })
@@ -42,13 +42,6 @@ vim.keymap.set("n", "<leader>bL", ":BufferLineCloseRight<CR>", {
 
 vim.keymap.set({ "n", "i" }, "<C-Tab>", ":bnext<CR>", { silent = true, desc = "Next buffer" })
 vim.keymap.set({ "n", "i" }, "<C-S-Tab>", ":bprevious<CR>", { silent = true, desc = "Previous buffer" })
-
-for i = 1, 9 do
-  vim.keymap.set("n", "<leader>b" .. i, function()
-    vim.cmd("buffer " .. i)
-  end, { desc = "Go to buffer " .. i })
-end
-
 
 -- Neotree specific mapping
 vim.keymap.set("n", "<S-CR>", ":Neotree action=open_split<CR>", { silent = true, desc = "Open file in a new buffer" })
@@ -74,7 +67,7 @@ vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
     vim.cmd("silent! write")
   end,
 })
-vim.keymap.set("n", "<leader>p", ":!xdg-open %<CR>", { silent = true })
+vim.keymap.set("n", "<leader>p", ":!xdg-open %<CR>", { silent = true, desc = "Open file" })
 
 -- Go specific settings
 vim.api.nvim_create_autocmd("FileType", {

@@ -29,8 +29,8 @@ return {
 				buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 				local opts = { noremap = true, silent = true }
 
-				buf_set_keymap("n", "gD", "<cmd>Telescope lsp_type_definitions<CR>", opts)
 				buf_set_keymap("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts)
+				buf_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration<CR>", opts)
 				buf_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
 				buf_set_keymap("n", "gh", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
 				buf_set_keymap("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts)
@@ -99,7 +99,7 @@ return {
 				cmd = { "clangd", "--background-index", "--clang-tidy" },
 				init_options = {
 					clangdFileStatus = true,
-					fallbackFlags = { "--std=c++20" },
+					fallbackFlags = { "--std=c++98" },
 				},
 			})
 
