@@ -1,109 +1,119 @@
 return {
-	{
-		"williamboman/mason.nvim",
-		lazy = false,
-		config = function()
-			require("mason").setup()
-		end,
-	},
-	{
-		"williamboman/mason-lspconfig.nvim",
-		lazy = false,
-		opts = {
-			auto_install = true,
-		},
-	},
-	{
-		"neovim/nvim-lspconfig",
-		lazy = false,
-		config = function()
-			local capabilities = require("cmp_nvim_lsp").default_capabilities()
-			local on_attach = function(client, bufnr)
-				local function buf_set_keymap(...)
-					vim.api.nvim_buf_set_keymap(bufnr, ...)
-				end
-				local function buf_set_option(...)
-					vim.api.nvim_buf_set_option(bufnr, ...)
-				end
-
-				buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
-				local opts = { noremap = true, silent = true }
-
-				client.server_capabilities.document_formatting = true
-			end
-
-			local lsp_flags = {
-				allow_incremental_sync = true,
-				debounce_text_changes = 150,
-			}
+  {
+    "williamboman/mason.nvim",
+    lazy = false,
+    config = function()
+      require("mason").setup()
+    end,
+  },
+  {
+    "williamboman/mason-lspconfig.nvim",
+    lazy = false,
+    opts = {
+      auto_install = true,
+      ensure_installed = { "clangd", "ts_ls", "html", "cssls", "emmet_language_server", "basedpyright", "lua_ls", "gopls", "jdtls" },
+    },
+  },
+  {
+    "neovim/nvim-lspconfig",
+    lazy = false,
+    config = function()
       local lspconfig = require("lspconfig")
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-			-- JavaScript / TypeScript support
-      vim.lsp.config('ts_ls', {
-        capabilities = capabilities
+      local on_attach = function(client, bufnr)
+        -- Make keymaps buffer-local so they only exist when an LSP is attached
+        local function map(lhs, rhs, desc)
+          vim.keymap.set("n", lhs, rhs, { buffer = bufnr, silent = true, desc = desc })
+        end
+        map("gd", vim.lsp.buf.definition,      "[g]oto [d]efinition")
+        map("gD", vim.lsp.buf.declaration,     "[g]oto [D]eclaration")
+        map("gr", function() vim.lsp.buf.references({ includeDeclaration = false }) end, "[g]oto [r]eferences")
+        map("gi", vim.lsp.buf.implementation,  "[g]oto [i]mplementations")
+
+        client.server_capabilities.documentFormattingProvider = true
+      end
+
+      local lsp_flags = {
+        allow_incremental_sync = true,
+        debounce_text_changes = 150,
+      }
+
+      -- JavaScript / TypeScript
+      lspconfig.ts_ls.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+        flags = lsp_flags,
       })
 
-      -- HTML support
-      vim.lsp.config('html', {
-				capabilities = capabilities,
-			})
+      -- HTML
+      lspconfig.html.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+        flags = lsp_flags,
+      })
 
-			-- CSS support
-      vim.lsp.config('cssls', {
-				capabilities = capabilities,
-			})
+      -- CSS
+      lspconfig.cssls.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+        flags = lsp_flags,
+      })
 
-			-- Emmet
-      vim.lsp.config('emmet', {
-				on_attach = on_attach,
-				capabilities = capabilities,
-				flags = lsp_flags,
-			})
+      -- Emmet
+      lspconfig.emmet_language_server.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+        flags = lsp_flags,
+      })
 
-			-- Python support (Django and FastAPI too)
-      vim.lsp.config('basedpyright', {
-				capabilities = capabilities,
-				settings = {
-					python = {
-						analysis = {
-							autoSearchPaths = true,
-							diagnosticMode = "workspace",
-							useLibraryCodeForTypes = true,
-						},
-					},
-				},
-			})
+      -- Python (basedpyright)
+      lspconfig.basedpyright.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+        settings = {
+          python = {
+            analysis = {
+              autoSearchPaths = true,
+              diagnosticMode = "workspace",
+              useLibraryCodeForTypes = true,
+            },
+          },
+        },
+      })
 
-			-- Lua support—for your Neovim config etc.
-      vim.lsp.config('lua_ls', {
-				capabilities = capabilities,
-			})
+      -- Lua
+      lspconfig.lua_ls.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+      })
 
-			-- Golang support using gopls
-      vim.lsp.config('gopls', {
-				capabilities = capabilities,
-			})
+      -- Go
+      lspconfig.gopls.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+      })
 
-			-- C++ support using clangd
-      vim.lsp.config('clangd', {
-				capabilities = capabilities,
-				cmd = { "clangd", "--background-index", "--clang-tidy" },
-				init_options = {
-					clangdFileStatus = true,
-					fallbackFlags = { "--std=c++98" },
-				},
-			})
+      -- C/C++ (clangd)
+      lspconfig.clangd.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+        cmd = { "clangd", "--background-index", "--clang-tidy" },
+        init_options = {
+          clangdFileStatus = true,
+          fallbackFlags = { "--std=c++98" }, 
+        },
+        flags = lsp_flags,
+      })
 
-			-- Java
-      vim.lsp.config('jdtls', {
-				capabilities = capabilities,
-				on_attach = on_attach,
-				flags = lsp_flags,
-				settings = {
-					java = {},
-				},
-			})
-
-		end,
-	},
+      -- Java
+      lspconfig.jdtls.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+        flags = lsp_flags,
+        settings = { java = {} },
+      })
+    end,
+  },
 }
+

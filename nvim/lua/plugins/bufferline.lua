@@ -4,7 +4,7 @@ return {
   dependencies = { "nvim-tree/nvim-web-devicons" },
   keys = {
     { "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", desc = "[b]uffer [p]in" },
-    { "<leader>bd", "<Cmd>BufferLineGroupClose ungrouped<CR>", desc = "[b]uffer pin [d]elete" },
+    { "<leader>bd", "<Cmd>BufferLineGroupClose ungrouped<CR>", desc = "[b]uffer [d]elete unpinned" },
   },
   opts = function()
     local snacks = require("snacks")

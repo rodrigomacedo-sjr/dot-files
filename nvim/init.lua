@@ -15,6 +15,7 @@ require("vim-options")
 require("lazy").setup("plugins")
 vim.cmd.colorscheme("tokyonight")
 require("keymaps")
+require("commands")
 
 
 vim.opt.ttimeoutlen = 10
