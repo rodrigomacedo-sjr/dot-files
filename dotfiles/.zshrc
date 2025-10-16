@@ -128,8 +128,6 @@ alias bat='batcat'
 alias capsy='setxkbmap -layout br -variant abnt2 -option "ctrl:swapcaps"'
 alias capsn='setxkbmap -layout br -variant abnt2 -option'
 
-alias vm='sudo rmmod kvm_intel kvm'
-
 alias oi='cd ~/obsidian; git add .; git commit -m "oi";git rebase --continue; git push'
 alias tchau='cd ~/obsidian;git add .; git commit -m "tchau"; git push; shutdown -h now'
 
