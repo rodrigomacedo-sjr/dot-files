@@ -65,9 +65,9 @@ vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { silent = true, desc = "[g]o
 vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<CR>", { silent = true, desc = "[g]oto [r]eferences" })
 vim.keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", { silent = true, desc = "[g]oto [i]mplementations" })
 --]]
+
 vim.keymap.set("n", "gn", vim.diagnostic.goto_next, { silent = true, desc = "[g]oto [n]ext diagnostic" })
 vim.keymap.set("n", "gp", vim.diagnostic.goto_prev, { silent = true, desc = "[g]oto [p]revious diagnostic" })
-
 -- LSP utils
 vim.keymap.set("n", "<leader>fm", vim.lsp.buf.format, { silent = true, desc = "[f]or[m]at" })
 vim.keymap.set("n", "K", vim.lsp.buf.hover, { silent = true, desc = "[K]now more" })
@@ -100,23 +100,3 @@ vim.keymap.set("n", "<leader>tv", ":TestVisit<CR>", { silent = true, desc = "[t]
 vim.keymap.set("n", "<leader>ml", ":Telescope marks<CR>", { desc = "[m]arks, [l]ist" })
 vim.keymap.set("n", "<leader>md", ":delm ", { desc = "[m]arks, [d]elete" })
 vim.keymap.set("n", "<leader>mD", ":delm!<CR>", { desc = "[m]arks, [D]elete all" })
-
--- Terminal
--- Insert-mode: quick escape
-vim.keymap.set("t", "<C-w>", [[<C-\><C-n>]], {silent = true, desc = "exit insert Ctrl-w"})
-
--- Window resize
-vim.keymap.set("n", "<C-Up>",    ":resize +2<CR>",            { silent = true, desc = "resize taller" })
-vim.keymap.set("n", "<C-Down>",  ":resize -2<CR>",            { silent = true, desc = "resize shorter" })
-vim.keymap.set("n", "<C-Left>",  ":vertical resize -4<CR>",   { silent = true, desc = "resize narrower" })
-vim.keymap.set("n", "<C-Right>", ":vertical resize +4<CR>",   { silent = true, desc = "resize wider" })
-
--- <leader>wt: convert current window to a terminal in current file's folder
-vim.keymap.set("n", "<leader>wt", function()
-  local uv  = vim.uv or vim.loop
-  local dir = vim.fn.expand("%:p:h")
-  if dir == nil or dir == "" then dir = (uv and uv.cwd()) or "." end
-  vim.cmd("lcd " .. vim.fn.fnameescape(dir))
-  vim.cmd("terminal")
-  vim.cmd("startinsert")
-end, { silent = true, desc = "[w]indow → [t]erminal (here)" })

@@ -14,10 +14,9 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter-context",
 		opts = {
-			max_lines = 1,
-			trim_scope = "inner",
+			max_lines = 3,
+			trim_scope = "outer",
 			mode = "cursor",
-      separator = "─",
 		},
 	},
 }

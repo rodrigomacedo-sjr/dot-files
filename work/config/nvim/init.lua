@@ -10,7 +10,6 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 vim.opt.rtp:prepend(lazypath)
-vim.g.netrw_browsex_viewer = "google-chrome-stable"
 
 require("vim-options")
 require("lazy").setup("plugins")

@@ -14,7 +14,6 @@ return {
         close_command = function(n) snacks.bufdelete(n) end,
         right_mouse_command = function(n) snacks.bufdelete(n) end,
         diagnostics = "nvim_lsp",
-        -- For diagnostics, we can just use simple icons directly
         diagnostics_indicator = function(_, _, diag)
           local icons = { Error = " ", Warn = " " }
           local ret = (diag.error and icons.Error .. diag.error .. " " or "")
