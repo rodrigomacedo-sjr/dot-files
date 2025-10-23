@@ -11,62 +11,6 @@ vim.opt.relativenumber = true -- Enable relative numbers for non-cursor lines
 
 vim.wo.relativenumber = true
 
--- Navigate vim panes better
-vim.keymap.set("n", "<c-k>", ":wincmd k<CR>")
-vim.keymap.set("n", "<c-j>", ":wincmd j<CR>")
-vim.keymap.set("n", "<c-h>", ":wincmd h<CR>")
-vim.keymap.set("n", "<c-l>", ":wincmd l<CR>")
-
-vim.keymap.set("n", "<leader>h", ":nohlsearch<CR>")
-
--- Buffer-related mappings
-vim.keymap.set("n", "<leader>bo", ":%bdelete|edit #<CR>", { silent = true, desc = "Close other buffers" })
-vim.keymap.set("n", "<leader>bx", ":bd<CR>", { silent = true, desc = "Close current buffer" })
-vim.keymap.set("n", "<leader>bn", ":enew<CR>", { noremap = true, silent = true, desc = "New Buffer" })
-vim.keymap.set("n", "<leader>br", ":edit<CR>", { silent = true, desc = "Reload buffer" })
-vim.keymap.set("n", "<leader>bs", ":w<CR>", { silent = true, desc = "Save buffer" })
-vim.keymap.set("n", "<leader>ba", ":wa<CR>", { silent = true, desc = "Save all buffers" })
-
-vim.keymap.set("n", "<leader>bp", ":bprevious<CR>", { silent = true, desc = "Previous buffer" })
-vim.keymap.set("n", "<leader>bn", ":bnext<CR>", { silent = true, desc = "Next buffer" })
-
-vim.keymap.set("n", "<leader>bb", ":BufferLinePick<CR>", {
-  silent = true,
-  desc = "Pick a buffer",
-})
-
-vim.keymap.set("n", "<leader>bL", ":BufferLineCloseRight<CR>", {
-  silent = true,
-  desc = "Close buffers to the right",
-})
-
-vim.keymap.set({ "n", "i" }, "<C-Tab>", ":bnext<CR>", { silent = true, desc = "Next buffer" })
-vim.keymap.set({ "n", "i" }, "<C-S-Tab>", ":bprevious<CR>", { silent = true, desc = "Previous buffer" })
-
-for i = 1, 9 do
-  vim.keymap.set("n", "<leader>b" .. i, function()
-    vim.cmd("buffer " .. i)
-  end, { desc = "Go to buffer " .. i })
-end
-
-
--- Neotree specific mapping
-vim.keymap.set("n", "<S-CR>", ":Neotree action=open_split<CR>", { silent = true, desc = "Open file in a new buffer" })
-
--- Window-related mappings
-vim.keymap.set("n", "<leader>wh", "<C-w>s", { silent = true, desc = "New window horizontally" })
-vim.keymap.set("n", "<leader>wv", "<C-w>v", { silent = true, desc = "New window vertically" })
-vim.keymap.set("n", "<leader>wx", "<C-w>c", { silent = true, desc = "Close current window" })
-vim.keymap.set("n", "<leader>wo", "<C-w>o", { silent = true, desc = "Close all other windows" })
-vim.keymap.set("n", "<leader>w=", "<C-w>=", { silent = true, desc = "Equalize window sizes" })
-vim.keymap.set("n", "<leader>wm", "<C-w>_<CR>", { silent = true, desc = "Maximize current window" })
-
--- Clipboard stuff
-vim.keymap.set("v", "<leader>y", '"+y', { desc = "Copy selection to system clipboard" })
-vim.keymap.set("n", "<leader>Y", '"+yg_', { desc = "Copy current line to system clipboard" })
-vim.keymap.set("n", "<leader>y", '"+y', { desc = "Copy to system clipboard" })
-vim.keymap.set("n", "<leader>yy", '"+yy', { desc = "Copy entire line to system clipboard" })
-
 -- Web stuff
 vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
   pattern = "*.html,*.js,*.css",
@@ -74,7 +18,6 @@ vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
     vim.cmd("silent! write")
   end,
 })
-vim.keymap.set("n", "<leader>p", ":!xdg-open %<CR>", { silent = true })
 
 -- Go specific settings
 vim.api.nvim_create_autocmd("FileType", {

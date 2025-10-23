@@ -11,6 +11,17 @@ return {
 		lazy = false,
 		opts = {
 			auto_install = true,
+			ensure_installed = {
+				"clangd",
+				"ts_ls",
+				"html",
+				"cssls",
+				"emmet_language_server",
+				"basedpyright",
+				"lua_ls",
+				"gopls",
+				"jdtls",
+			},
 		},
 	},
 	{
@@ -18,60 +29,46 @@ return {
 		lazy = false,
 		config = function()
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
 			local on_attach = function(client, bufnr)
-				local function buf_set_keymap(...)
-					vim.api.nvim_buf_set_keymap(bufnr, ...)
+				local function map(lhs, rhs, desc)
+					vim.keymap.set("n", lhs, rhs, { buffer = bufnr, silent = true, desc = desc })
 				end
-				local function buf_set_option(...)
-					vim.api.nvim_buf_set_option(bufnr, ...)
-				end
+				map("gd", vim.lsp.buf.definition, "[g]oto [d]efinition")
+				map("gD", vim.lsp.buf.declaration, "[g]oto [D]eclaration")
+				map("gr", function()
+					vim.lsp.buf.references({ includeDeclaration = false })
+				end, "[g]oto [r]eferences")
+				map("gi", vim.lsp.buf.implementation, "[g]oto [i]mplementations")
 
-				buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
-				local opts = { noremap = true, silent = true }
-
-				buf_set_keymap("n", "gD", "<cmd>Telescope lsp_type_definitions<CR>", opts)
-				buf_set_keymap("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts)
-				buf_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-				buf_set_keymap("n", "gh", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-				buf_set_keymap("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts)
-				buf_set_keymap("n", "gr", "<cmd>Telescope lsp_references<CR>", opts)
-				buf_set_keymap("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
-				buf_set_keymap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
-				buf_set_keymap("n", "<leader>ll", "<cmd>lua vim.lsp.codelens.run()<cr>", opts)
-				client.server_capabilities.document_formatting = true
+				client.server_capabilities.documentFormattingProvider = true
 			end
 
 			local lsp_flags = {
 				allow_incremental_sync = true,
 				debounce_text_changes = 150,
 			}
-			local lspconfig = require("lspconfig")
 
-			-- JavaScript / TypeScript support
-			lspconfig.ts_ls.setup({
-				capabilities = capabilities,
-			})
+			-- tiny helper to cut repetition
+			local function enable(server, cfg)
+				cfg = cfg or {}
+				cfg.capabilities = capabilities
+				cfg.on_attach = on_attach
+				cfg.flags = lsp_flags
+				vim.lsp.config(server, cfg)
+				vim.lsp.enable(server)
+			end
 
-			-- HTML support
-			lspconfig.html.setup({
-				capabilities = capabilities,
-			})
+			-- JavaScript / TypeScript
+			enable("ts_ls")
 
-			-- CSS support
-			lspconfig.cssls.setup({
-				capabilities = capabilities,
-			})
+			-- HTML / CSS / Emmet
+			enable("html")
+			enable("cssls")
+			enable("emmet_language_server")
 
-			-- Emmet
-			lspconfig.emmet_ls.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-				flags = lsp_flags,
-			})
-
-			-- Python support (Django and FastAPI too)
-			lspconfig.basedpyright.setup({
-				capabilities = capabilities,
+			-- Python (basedpyright)
+			enable("basedpyright", {
 				settings = {
 					python = {
 						analysis = {
@@ -83,42 +80,74 @@ return {
 				},
 			})
 
-			-- Lua support—for your Neovim config etc.
-			lspconfig.lua_ls.setup({
-				capabilities = capabilities,
-			})
+			-- Lua
+			enable("lua_ls")
 
-			-- Golang support using gopls
-			lspconfig.gopls.setup({
-				capabilities = capabilities,
-			})
+      -- Go (gopls) — robust root_dir and only start on real files
+      local function gopls_root_dir(arg)
+        -- Coerce to a real buffer number
+        local bufnr = type(arg) == "number" and arg or vim.api.nvim_get_current_buf()
+        if not vim.api.nvim_buf_is_valid(bufnr) then return nil end
+        -- Skip non-file/special buffers (e.g. Oil, nofile, help)
+        if vim.bo[bufnr].buftype ~= "" then return nil end
 
-			-- C++ support using clangd
-			lspconfig.clangd.setup({
-				capabilities = capabilities,
-				cmd = { "clangd", "--background-index", "--clang-tidy" },
-				init_options = {
-					clangdFileStatus = true,
-					fallbackFlags = { "--std=c++20" },
-				},
-			})
+        local fname = vim.api.nvim_buf_get_name(bufnr)
+        if fname == "" then return nil end
 
-			-- Java
-			lspconfig.jdtls.setup({
-				capabilities = capabilities,
-				on_attach = on_attach,
-				flags = lsp_flags,
-				-- cmd = { "jdtls", "-data", "/path/to/your/workspace" },
-				settings = {
-					java = {},
-				},
-			})
+        -- Start searching from the buffer's directory
+        local start = vim.fs.dirname(fname)
+        if not start or start == "" then return nil end
 
-			-- Common LSP key mappings
-			vim.keymap.set("n", "K", vim.lsp.buf.hover, { silent = true, desc = "Hover (LSP)" })
-			vim.keymap.set("n", "gd", vim.lsp.buf.definition, { silent = true, desc = "Go to definition" })
-			vim.keymap.set("n", "gr", vim.lsp.buf.references, { silent = true, desc = "See references" })
-			vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { silent = true, desc = "Code action" })
-		end,
-	},
+        -- Find go.work/go.mod/.git upward from the file's dir
+        local hit = vim.fs.find({ "go.work", "go.mod", ".git" }, { path = start, upward = true })[1]
+        if not hit then
+            return start
+        end
+          return vim.fs.dirname(hit)
+      end
+
+      vim.lsp.config("gopls", {
+        capabilities = capabilities,
+        on_attach = on_attach,
+        flags = lsp_flags,
+        filetypes = { "go", "gomod", "gowork", "gotmpl" },
+        root_dir = gopls_root_dir,
+        settings = {
+          gopls = {
+            completeUnimported = true,
+            usePlaceholders = true,
+            gofumpt = true,      -- formatting
+            staticcheck = true,  -- linting
+            analyses = {
+              unusedparams = true,
+              nilness = true,
+              shadow = true,
+              unreachable = true,
+              unusedwrite = true,
+            },
+          },
+        },
+      })
+
+      -- Only enable gopls for Go-ish buffers, and only if it's a real file buffer
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = { "go", "gomod", "gowork", "gotmpl" },
+        callback = function(ev)
+          if vim.bo[ev.buf].buftype == "" then
+            -- pass the buffer explicitly so we don't fire on special buffers
+            vim.lsp.enable("gopls", ev.buf)
+          end
+        end,
+      })
+
+
+	  -- C/C++ (clangd)
+	  enable("clangd", {
+		  cmd = { "clangd", "--background-index", "--clang-tidy" },
+		  init_options = {
+			  clangdFileStatus = true,
+			  fallbackFlags = { "--std=c++98" },
+		  },
+	  })
+  end,  },
 }

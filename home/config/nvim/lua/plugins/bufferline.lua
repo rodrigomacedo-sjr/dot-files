@@ -3,8 +3,8 @@ return {
   event = "VeryLazy",
   dependencies = { "nvim-tree/nvim-web-devicons" },
   keys = {
-    { "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle Pin" },
-    { "<leader>bP", "<Cmd>BufferLineGroupClose ungrouped<CR>", desc = "Delete Non-Pinned Buffers" },
+    { "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", desc = "[b]uffer [p]in" },
+    { "<leader>bd", "<Cmd>BufferLineGroupClose ungrouped<CR>", desc = "[b]uffer [d]elete unpinned" },
   },
   opts = function()
     local snacks = require("snacks")
@@ -14,7 +14,6 @@ return {
         close_command = function(n) snacks.bufdelete(n) end,
         right_mouse_command = function(n) snacks.bufdelete(n) end,
         diagnostics = "nvim_lsp",
-        -- For diagnostics, we can just use simple icons directly
         diagnostics_indicator = function(_, _, diag)
           local icons = { Error = " ", Warn = " " }
           local ret = (diag.error and icons.Error .. diag.error .. " " or "")
