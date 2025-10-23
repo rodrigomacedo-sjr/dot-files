@@ -1,0 +1,14 @@
+# OS cruft
+.DS_Store
+Thumbs.db
+Icon?
+# Editor swap/backup
+*~
+.*.swp
+.swp
+.swo
+# Python
+__pycache__/
+*.pyc
+# Node
+node_modules/
