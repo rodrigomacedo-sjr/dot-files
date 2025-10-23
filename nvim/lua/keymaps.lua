@@ -65,9 +65,9 @@ vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { silent = true, desc = "[g]o
 vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<CR>", { silent = true, desc = "[g]oto [r]eferences" })
 vim.keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", { silent = true, desc = "[g]oto [i]mplementations" })
 --]]
-
 vim.keymap.set("n", "gn", vim.diagnostic.goto_next, { silent = true, desc = "[g]oto [n]ext diagnostic" })
 vim.keymap.set("n", "gp", vim.diagnostic.goto_prev, { silent = true, desc = "[g]oto [p]revious diagnostic" })
+
 -- LSP utils
 vim.keymap.set("n", "<leader>fm", vim.lsp.buf.format, { silent = true, desc = "[f]or[m]at" })
 vim.keymap.set("n", "K", vim.lsp.buf.hover, { silent = true, desc = "[K]now more" })
