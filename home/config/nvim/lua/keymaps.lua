@@ -18,24 +18,24 @@ vim.keymap.set("n", "<leader>bp", ":bprevious<CR>", { silent = true, desc = "[b]
 vim.keymap.set("n", "<leader>bn", ":bnext<CR>", { silent = true, desc = "[b]uffer [n]ext" })
 vim.keymap.set("n", "<leader>bb", ":BufferLinePick<CR>", { silent = true, desc = "[b]uffer [b]rowser" })
 vim.keymap.set(
-  "n",
-  "<leader>bR",
-  ":BufferLineCloseRight<CR>",
-  { silent = true, desc = "[b]uffers, close to the [R]ight" }
+	"n",
+	"<leader>bR",
+	":BufferLineCloseRight<CR>",
+	{ silent = true, desc = "[b]uffers, close to the [R]ight" }
 )
 vim.keymap.set(
-  "n",
-  "<leader>bL",
-  ":BufferLineCloseLeft<CR>",
-  { silent = true, desc = "[b]uffers, close to the [L]eft" }
+	"n",
+	"<leader>bL",
+	":BufferLineCloseLeft<CR>",
+	{ silent = true, desc = "[b]uffers, close to the [L]eft" }
 )
 vim.keymap.set({ "n", "i" }, "<C-Tab>", ":bnext<CR>", { silent = true, desc = "next buffer" })
 vim.keymap.set({ "n", "i" }, "<C-S-Tab>", ":bprevious<CR>", { silent = true, desc = "previous buffer" })
 vim.keymap.set(
-  "n",
-  "<leader>bf",
-  ":Neotree buffers reveal float<CR>",
-  { silent = true, desc = "reveal [b]uffers in [f]loating window" }
+	"n",
+	"<leader>bf",
+	":Neotree buffers reveal float<CR>",
+	{ silent = true, desc = "reveal [b]uffers in [f]loating window" }
 )
 vim.keymap.set("n", "<S-CR>", ":Neotree action=open_split<CR>", { silent = true, desc = "open file in a new buffer" })
 
@@ -58,6 +58,8 @@ vim.keymap.set("n", "<leader>ls", ":LiveServerStart <CR>", { desc = "[l]ive serv
 vim.keymap.set("n", "<leader>lp", ":LiveServerStop <CR>", { desc = "[l]ive server sto[p]" })
 vim.keymap.set("n", "<leader>e", ":Neotree filesystem toggle left<CR>", { silent = true, desc = "toggle file tre[e]" })
 
+vim.api.nvim_set_keymap("n", "gx", [[:silent execute '!$BROWSER ' . shellescape(expand('<cfile>'), 1)<CR>]], { silent = true, desc = "[g]o e[x]plore this link"})
+
 vim.keymap.set("n", "gn", vim.diagnostic.goto_next, { silent = true, desc = "[g]oto [n]ext diagnostic" })
 vim.keymap.set("n", "gp", vim.diagnostic.goto_prev, { silent = true, desc = "[g]oto [p]revious diagnostic" })
 
@@ -76,7 +78,7 @@ vim.keymap.set("n", "<leader>gp", "<cmd>Gitsigns prev_hunk<CR>", { desc = "[g]it
 
 vim.keymap.set("n", "<leader>gr", "<cmd>Gitsigns reset_hunk<CR>", { desc = "[g]it [r]eset hunk" })
 vim.keymap.set("v", "<leader>gr", function()
-  require("gitsigns").reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
+	require("gitsigns").reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
 end, { desc = "[g]it [r]eset selected hunk" })
 
 vim.keymap.set("n", "<leader>gb", ":Gitsigns toggle_current_line_blame<CR>", { desc = "[g]it toggle line [b]lame" })
@@ -95,19 +97,21 @@ vim.keymap.set("n", "<leader>mD", ":delm!<CR>", { desc = "[m]arks, [D]elete all"
 
 -- Terminal
 -- Insert-mode: quick escape
-vim.keymap.set("t", "<C-w>", [[<C-\><C-n>]], {silent = true, desc = "exit insert Ctrl-w"})
+vim.keymap.set("t", "<C-w>", [[<C-\><C-n>]], { silent = true, desc = "exit insert Ctrl-w" })
 
 -- Window resize
-vim.keymap.set("n", "<C-Up>",    ":resize +2<CR>",            { silent = true, desc = "resize taller" })
-vim.keymap.set("n", "<C-Down>",  ":resize -2<CR>",            { silent = true, desc = "resize shorter" })
-vim.keymap.set("n", "<C-Left>",  ":vertical resize -4<CR>",   { silent = true, desc = "resize narrower" })
-vim.keymap.set("n", "<C-Right>", ":vertical resize +4<CR>",   { silent = true, desc = "resize wider" })
+vim.keymap.set("n", "<C-Up>", ":resize +2<CR>", { silent = true, desc = "resize taller" })
+vim.keymap.set("n", "<C-Down>", ":resize -2<CR>", { silent = true, desc = "resize shorter" })
+vim.keymap.set("n", "<C-Left>", ":vertical resize -4<CR>", { silent = true, desc = "resize narrower" })
+vim.keymap.set("n", "<C-Right>", ":vertical resize +4<CR>", { silent = true, desc = "resize wider" })
 
 vim.keymap.set("n", "<leader>wt", function()
-  local uv  = vim.uv or vim.loop
-  local dir = vim.fn.expand("%:p:h")
-  if dir == nil or dir == "" then dir = (uv and uv.cwd()) or "." end
-  vim.cmd("lcd " .. vim.fn.fnameescape(dir))
-  vim.cmd("terminal")
-  vim.cmd("startinsert")
+	local uv = vim.uv or vim.loop
+	local dir = vim.fn.expand("%:p:h")
+	if dir == nil or dir == "" then
+		dir = (uv and uv.cwd()) or "."
+	end
+	vim.cmd("lcd " .. vim.fn.fnameescape(dir))
+	vim.cmd("terminal")
+	vim.cmd("startinsert")
 end, { silent = true, desc = "[w]indow → [t]erminal (here)" })

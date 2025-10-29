@@ -4,6 +4,5 @@ return {
   cmd = { "LiveServerStart", "LiveServerStop" },
   config = function()
     require("live-server").setup()
-
   end,
 }

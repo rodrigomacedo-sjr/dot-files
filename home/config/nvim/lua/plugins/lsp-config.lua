@@ -129,6 +129,7 @@ return {
         },
       })
 
+      --[[
       -- Only enable gopls for Go-ish buffers, and only if it's a real file buffer
       vim.api.nvim_create_autocmd("FileType", {
         pattern = { "go", "gomod", "gowork", "gotmpl" },
@@ -138,7 +139,7 @@ return {
             vim.lsp.enable("gopls", ev.buf)
           end
         end,
-      })
+      })--]]
 
 
 	  -- C/C++ (clangd)

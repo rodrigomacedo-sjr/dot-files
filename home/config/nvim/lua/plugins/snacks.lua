@@ -14,7 +14,7 @@ return {
 			sections = {
 				{
 					section = "terminal",
-					cmd = "chafa ~/Pictures/wallpapers/bridge.jpg --format symbols --symbols vhalf --size 60x17 --stretch; sleep .1",
+					cmd = "chafa ~/Pictures/wallpapers/wave.jpg --format symbols --symbols vhalf --size 60x17 --stretch; sleep .1",
 					height = 20,
 					padding = 1,
 				},
@@ -44,7 +44,7 @@ return {
 			function()
 				require("snacks").notifier.hide()
 			end,
-			desc = "[n]otifications, [undo]",
+			desc = "[n]otifications, [u]ndo",
 		},
 	},
 }
