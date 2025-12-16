@@ -101,3 +101,9 @@ vim.keymap.set("n", "<leader>tv", ":TestVisit<CR>", { silent = true, desc = "[t]
 vim.keymap.set("n", "<leader>ml", ":Telescope marks<CR>", { desc = "[m]arks, [l]ist" })
 vim.keymap.set("n", "<leader>md", ":delm ", { desc = "[m]arks, [d]elete" })
 vim.keymap.set("n", "<leader>mD", ":delm A-Za-Z0-9<CR>", { desc = "[m]arks, [D]elete all" })
+
+-- Quickfix
+vim.keymap.set("n", "<leader>qn", ":cn<CR>", { desc = "[q]uickfix list [n]ext" })
+vim.keymap.set("n", "<leader>qp", ":cp<CR>", { desc = "[q]uickfix list [p]revious" })
+vim.keymap.set("n", "<leader>qo", ":copen<CR>", { desc = "[q]uickfix window [o]pen" })
+vim.keymap.set("n", "<leader>qc", ":close<CR>", { desc = "[q]uickfix window [c]lose" })
