@@ -11,21 +11,16 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+vim.g.snacks_animate = false
+
 require("vim-options")
 require("lazy").setup("plugins")
-vim.cmd.colorscheme("catppuccin-mocha")
+vim.cmd.colorscheme("tokyonight")
 require("keymaps")
 require("commands")
 
-require("go")
-local format_sync_grp = vim.api.nvim_create_augroup("goimports", {})
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*.go",
-  callback = function()
-   require('go.format').goimports()
-  end,
-  group = format_sync_grp,
-})
+vim.o.ignorecase = true
 
+vim.o.smartcase = true
 
 vim.opt.ttimeoutlen = 10

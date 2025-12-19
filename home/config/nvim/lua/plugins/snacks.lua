@@ -6,7 +6,6 @@ return {
 		indent = { enabled = true },
 		input = { enabled = true },
 		notifier = { enabled = true },
-		scope = { enabled = true },
 		statuscolumn = { enabled = false },
 		words = { enabled = true },
 		---@class snacks.dashboard.Config
@@ -14,7 +13,7 @@ return {
 			sections = {
 				{
 					section = "terminal",
-					cmd = "chafa ~/Pictures/wallpapers/wave.jpg --format symbols --symbols vhalf --size 60x17 --stretch; sleep .1",
+					cmd = "chafa ~/Pictures/wallpapers/monet_pond.jpg --format symbols --symbols vhalf --size 60x17 --stretch; sleep .1",
 					height = 20,
 					padding = 1,
 				},

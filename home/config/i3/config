@@ -11,7 +11,12 @@ set $mod Mod4
 set $terminal wezterm
 
 # Set your application launcher. dmenu is a classic. Rofi is a popular alternative.
-set $menu dmenu_run
+set $menu rofi -show drun
+set $menu .config/rofi/launchers/type-7/launcher.sh -show drun
+
+# Launch the graphical Flameshot tool to take a screenshot
+bindsym Print exec "flameshot gui"
+bindsym $mod+p exec "flameshot gui"
 
 # Use a modern, readable font.
 # You might need to install this font, or you can change it to one you have.
@@ -32,7 +37,10 @@ bindsym $mod+d exec $menu
 bindsym $mod+Shift+q kill
 
 # Lock screen
-bindsym $mod+l exec betterlockscreen -l
+bindsym $mod+z exec betterlockscreen -l
+
+# Important on startup
+exec --no-startup-id blueman-applet
 
 # =============================================================================
 # Keybindings for window and container management
@@ -139,16 +147,16 @@ bindsym $mod+r mode "resize"
 mode "resize" {
         # These bindings trigger when you are in resize mode
         # Resize with vim-like keys
-        bindsym h resize shrink width 10 px or 10 ppt
-        bindsym j resize grow height 10 px or 10 ppt
-        bindsym k resize shrink height 10 px or 10 ppt
-        bindsym l resize grow width 10 px or 10 ppt
+        bindsym h resize grow width 10 px or 10 ppt
+        bindsym j resize shrink height 10 px or 10 ppt
+        bindsym k resize grow height 10 px or 10 ppt
+        bindsym l resize shrink width 10 px or 10 ppt
 
         # Resize with arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
+        bindsym Right resize shrink width 10 px or 10 ppt
+        bindsym Up resize grow height 10 px or 10 ppt
+        bindsym Down resize shrink height 10 px or 10 ppt
+        bindsym Left resize grow width 10 px or 10 ppt
 
         # Return to default mode
         bindsym Return mode "default"
@@ -166,7 +174,9 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 
 # Exit i3 (logs you out)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+e exec --no-startup-id i3-nagbar -t warning \
+  -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' \
+  -B 'Yes, exit i3' "i3-msg exit"
 
 # =============================================================================
 # Gaps and Borders (for aesthetics)
@@ -199,7 +209,7 @@ client.background       #2E3440
 # =============================================================================
 # Status Bar
 # =============================================================================
-exec_always --no-startup-id ~/.config/polybar/launch.sh
+exec_always --no-startup-id ~/.config/polybar/launch.sh --shapes
 
 # =============================================================================
 # Keyboard setup
@@ -215,13 +225,14 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
 
 # layout
-exec_always --no-startup-id setxkbmap -layout br -variant abnt2 "ctrl:swapcaps"
+exec_always --no-startup-id setxkbmap -layout br -variant abnt2
+
 
 # =============================================================================
 # mexican filter
 # =============================================================================
 
-exec_always --no-startup-id "sh -c 'killall -q redshift; redshift -P -O 2500'"
+exec_always --no-startup-id "sh -c 'killall -q redshift; redshift -P -O 2200'"
 
 # =============================================================================
 # Background
@@ -246,3 +257,14 @@ bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set 5%+
 
 # Decrease screen brightness
 bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
+
+
+# =============================================================================
+# Media control
+# =============================================================================
+# Media Keys
+bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
+bindsym XF86AudioNext exec --no-startup-id playerctl next
+bindsym XF86AudioPrev exec --no-startup-id playerctl previous
+bindsym XF86AudioStop exec --no-startup-id playerctl stop
+

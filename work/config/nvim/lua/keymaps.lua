@@ -70,6 +70,7 @@ vim.keymap.set("n", "gn", vim.diagnostic.goto_next, { silent = true, desc = "[g]
 vim.keymap.set("n", "gp", vim.diagnostic.goto_prev, { silent = true, desc = "[g]oto [p]revious diagnostic" })
 -- LSP utils
 vim.keymap.set("n", "<leader>fm", vim.lsp.buf.format, { silent = true, desc = "[f]or[m]at" })
+vim.keymap.set("v", "<leader>fm", vim.lsp.buf.format, { silent = true, desc = "[f]or[m]at" })
 vim.keymap.set("n", "K", vim.lsp.buf.hover, { silent = true, desc = "[K]now more" })
 vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { silent = true, desc = "[c]ode [a]ction" })
 vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { silent = true, desc = "[r]e[n]ame" })
@@ -99,4 +100,10 @@ vim.keymap.set("n", "<leader>tv", ":TestVisit<CR>", { silent = true, desc = "[t]
 -- Marks
 vim.keymap.set("n", "<leader>ml", ":Telescope marks<CR>", { desc = "[m]arks, [l]ist" })
 vim.keymap.set("n", "<leader>md", ":delm ", { desc = "[m]arks, [d]elete" })
-vim.keymap.set("n", "<leader>mD", ":delm!<CR>", { desc = "[m]arks, [D]elete all" })
+vim.keymap.set("n", "<leader>mD", ":delm A-Za-Z0-9<CR>", { desc = "[m]arks, [D]elete all" })
+
+-- Quickfix
+vim.keymap.set("n", "<leader>qn", ":cn<CR>", { desc = "[q]uickfix list [n]ext" })
+vim.keymap.set("n", "<leader>qp", ":cp<CR>", { desc = "[q]uickfix list [p]revious" })
+vim.keymap.set("n", "<leader>qo", ":copen<CR>", { desc = "[q]uickfix window [o]pen" })
+vim.keymap.set("n", "<leader>qc", ":close<CR>", { desc = "[q]uickfix window [c]lose" })

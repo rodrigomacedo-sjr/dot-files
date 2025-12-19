@@ -1,4 +1,4 @@
-vim.g.cpp_std = vim.g.cpp_std or "c++98"
+vim.g.cpp_std = vim.g.cpp_std or "c++23"
 
 local function set_cpp(std)
   vim.g.cpp_std = std

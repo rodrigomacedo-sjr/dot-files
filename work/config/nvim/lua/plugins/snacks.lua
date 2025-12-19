@@ -6,7 +6,6 @@ return {
 		indent = { enabled = true },
 		input = { enabled = true },
 		notifier = { enabled = true },
-		scope = { enabled = true },
 		statuscolumn = { enabled = false },
 		words = { enabled = true },
 		---@class snacks.dashboard.Config
@@ -44,7 +43,7 @@ return {
 			function()
 				require("snacks").notifier.hide()
 			end,
-			desc = "[n]otifications, [undo]",
+			desc = "[n]otifications, [u]ndo",
 		},
 	},
 }

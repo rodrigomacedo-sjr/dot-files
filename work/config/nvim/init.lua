@@ -11,11 +11,16 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+vim.g.snacks_animate = false
+
 require("vim-options")
 require("lazy").setup("plugins")
 vim.cmd.colorscheme("tokyonight")
 require("keymaps")
 require("commands")
 
+vim.o.ignorecase = true
+
+vim.o.smartcase = true
 
 vim.opt.ttimeoutlen = 10

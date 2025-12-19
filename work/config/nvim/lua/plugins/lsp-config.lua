@@ -18,7 +18,6 @@ return {
     "neovim/nvim-lspconfig",
     lazy = false,
     config = function()
-      local lspconfig = require("lspconfig")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
       local on_attach = function(client, bufnr)
@@ -39,35 +38,35 @@ return {
       }
 
       -- JavaScript / TypeScript
-      lspconfig.ts_ls.setup({
+      vim.lsp.config("ts_ls", {
         capabilities = capabilities,
         on_attach = on_attach,
         flags = lsp_flags,
       })
 
       -- HTML
-      lspconfig.html.setup({
+      vim.lsp.config("html", {
         capabilities = capabilities,
         on_attach = on_attach,
         flags = lsp_flags,
       })
 
       -- CSS
-      lspconfig.cssls.setup({
+      vim.lsp.config("cssls", {
         capabilities = capabilities,
         on_attach = on_attach,
         flags = lsp_flags,
       })
 
       -- Emmet
-      lspconfig.emmet_language_server.setup({
+      vim.lsp.config("emmet_language_server", {
         capabilities = capabilities,
         on_attach = on_attach,
         flags = lsp_flags,
       })
 
       -- Python (basedpyright)
-      lspconfig.basedpyright.setup({
+      vim.lsp.config("basedpyright", {
         capabilities = capabilities,
         on_attach = on_attach,
         settings = {
@@ -82,19 +81,19 @@ return {
       })
 
       -- Lua
-      lspconfig.lua_ls.setup({
+      vim.lsp.config("lua_ls", {
         capabilities = capabilities,
         on_attach = on_attach,
       })
 
       -- Go
-      lspconfig.gopls.setup({
+      vim.lsp.config("gopls", {
         capabilities = capabilities,
         on_attach = on_attach,
       })
 
       -- C/C++ (clangd)
-      lspconfig.clangd.setup({
+      vim.lsp.config("clangd", {
         capabilities = capabilities,
         on_attach = on_attach,
         cmd = { "clangd", "--background-index", "--clang-tidy" },
@@ -106,7 +105,7 @@ return {
       })
 
       -- Java
-      lspconfig.jdtls.setup({
+      vim.lsp.config("jdtls", {
         capabilities = capabilities,
         on_attach = on_attach,
         flags = lsp_flags,
